@@ -1,0 +1,110 @@
+﻿@model IEnumerable<BanVeXeKhach.Models.NhaXe>
+
+@{
+    ViewBag.Title = "Nhà xe";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Nhà xe</h1>
+        <a href="@Url.RouteUrl("nha_xe.them.get")" class="btn btn-success btn-add-new">
+            <i class="fas fa-fw fa-plus-circle"></i><span> Thêm</span>
+        </a>
+    </div>
+
+    <!-- DataTales Example -->
+    <div class="card shadow mb-4">
+        <div class="card-header py-3">
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách nhà xe</h6>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Biển số</th>
+                            <th>Tên nhà xe</th>
+                            <th>Số điện thoại</th>
+                            <th>Ghế ngồi</th>
+                            <th>Ghế nằm</th>
+                            <th>Tải trọng mỗi khách</th>
+                            <th>Thời gian đi</th>
+                            <th style="width: 120px">Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var nha_xe in Model)
+                        {
+                        <tr>
+                            <td><a href="@Url.RouteUrl("nha_xe.lo_trinh", new { id = nha_xe.id})">@nha_xe.bienSo</a></td>
+                            <td><a href="@Url.RouteUrl("nha_xe.lo_trinh", new { id = nha_xe.id})">@nha_xe.tenNhaXe</a></td>
+                            <td>@nha_xe.soDienThoai</td>
+                            <td>@nha_xe.soGheNgoi</td>
+                            <td>@nha_xe.soGheNam</td>
+                            <td>@nha_xe.taiTrongMoiKhach</td>
+                            <td>@nha_xe.thoiGianDi</td>
+                            <td style="max-width: 120px">
+                                <div class="d-flex justify-content-between">
+                                    <a href="@Url.RouteUrl("nha_xe.sua.get", new { id = nha_xe.id})" class="btn btn-info btn-sm mr-2">
+                                        <div class="d-flex align-items-baseline">
+                                            <i class="fas fa-pencil-alt"></i>
+                                            <span class="ml-1">Sửa</span>
+                                        </div>
+                                    </a>
+                                    <a href="#" class="btn btn-danger btn-sm btnDelete" data-toggle="modal" data-target="#bulk_delete_modal" data-text="@nha_xe.tenNhaXe" data-value="@nha_xe.id">
+                                        <div class="d-flex align-items-baseline">
+                                            <i class="fas fa-trash"></i>
+                                            <span class="ml-1">Xóa</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section bulk_delete_modal
+{
+    <div class="modal fade" tabindex="-1" id="bulk_delete_modal" role="dialog" style="display: none;">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="m-0 font-weight-bold text-primary">
+                        <i class="fas fa-fw fa-trash-alt"></i> Bạn có chắc là muốn xóa <span id="bulk_delete_count"></span> không?
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                </div>
+
+                <div class="modal-body" id="delete_modal_body"></div>
+
+                <div class="modal-footer">
+                    <form action="" id="bulk_delete_form" method="POST">
+                        @Html.AntiForgeryToken()
+                        <input type="submit" class="btn btn-success" value="Có">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section js
+{
+    <script>
+        $(document).ready(function () {
+            $("body").on('click', '.btnDelete', function () {
+                document.getElementById("bulk_delete_form").action = "@Url.RouteUrl("nha_xe.index")" + "/xoa/" + this.getAttribute("data-value")
+                $("#bulk_delete_count").html(this.getAttribute("data-text"))
+            })
+        });
+    </script>
+}
+

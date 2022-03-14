@@ -1,0 +1,135 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="@ViewData["Title"] - Đặt vé xe<">
+    <link rel="icon" href="@Url.Content("~/images/logo.png")" type="image/ico" />
+
+    <title>@ViewData["Title"] - Đặt vé xe</title>
+
+    <link href="@Url.Content("~/lib/sb-admin-2/vendor/fontawesome-free/css/all.min.css")" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="@Url.Content("~/lib/sb-admin-2/css/sb-admin-2.css")" rel="stylesheet">
+    <link href="@Url.Content("~/lib/sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css")" rel="stylesheet">
+
+    <!-- Select2-->
+    <link href="@Url.Content("~/lib/select2/css/select2.css")" rel="stylesheet">
+    <script href="@Url.Content("~/lib/select2/select2.js")"></script>
+
+    <!-- Toastr-->
+    <link href="@Url.Content("~/css/toastr.css")" rel="stylesheet">
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content container">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <div class="d-none d-sm-inline-block mr-auto my-2">
+                        HỆ THỐNG ĐẶT VÉ XE TRỰC TUYẾN
+                    </div>
+
+                    <div class="d-none d-sm-inline-block mr-auto my-2">
+                        <a href="@Url.RouteUrl("dat_ve.index")"><i class="fa fa-users"></i> Tìm đặt vé nhóm</a>
+                    </div>
+                </nav>
+
+                @RenderBody()
+            </div>
+
+        </div>
+        <!-- End of Content Wrapper -->
+
+        @RenderSection("bulk_delete_modal", required: false)
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/jquery/jquery.min.js")"></script>
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+    <!-- Select2-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/jquery-easing/jquery.easing.min.js")"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="@Url.Content("~/lib/sb-admin-2/js/sb-admin-2.min.js")"></script>
+
+    <!-- Page level plugins -->
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/chart.js/Chart.min.js")"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="@Url.Content("~/lib/sb-admin-2/js/demo/chart-area-demo.js")"></script>
+    <script src="@Url.Content("~/lib/sb-admin-2/js/demo/chart-pie-demo.js")"></script>
+
+
+    <!-- Page level plugins -->
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="@Url.Content("~/lib/sb-admin-2/js/demo/datatables-demo.js")"></script>
+
+    <script src="@Url.Content("~/js/custom.js")"></script>
+
+    @RenderSection("js", required: false)
+
+    <script src='@Url.Content("~/lib/jquery-validation/jquery.validate.js")' type='text/javascript'></script>
+    <script src='@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")' type='text/javascript'></script>
+
+    <script src='@Url.Content("~/js/toastr.js")' type='text/javascript'></script>
+
+    <input type="hidden" id="success" value="@TempData["success"]" />
+    <input type="hidden" id="info" value="@TempData["info"]" />
+    <input type="hidden" id="warning" value="@TempData["warning"]" />
+    <input type="hidden" id="error" value="@TempData["error"]" />
+
+    <script>
+        $(function () {
+            if ($('#success').val()) {
+                displayMessage($('#success').val(), 'success');
+            }
+            if ($('#info').val()) {
+                displayMessage($('#info').val(), 'info');
+            }
+            if ($('#warning').val()) {
+                displayMessage($('#warning').val(), 'warning');
+            }
+            if ($('#error').val()) {
+                displayMessage($('#error').val(), 'error');
+            }
+        });
+        var displayMessage = function (message, type) {
+            toastr.options = {
+                "positionClass": "toast-top-right",
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+            toastr[type](message);
+        };
+    </script>
+</body>
+</html>

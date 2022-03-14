@@ -1,0 +1,63 @@
+﻿@model BanVeXeKhach.Models.DanhSachTinhXeDiQua
+
+@{
+    ViewBag.Title = "Sửa lộ trình xe";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <h1 class="h3 mb-0 text-gray-800">Thông tin lộ trình</h1>
+        <a href="@Url.RouteUrl("nha_xe.lo_trinh", new { id = ViewBag.IdNhaXe })" class="btn btn-dark"><i class="fa fa-arrow-left"></i> Quay lại</a>
+    </div>
+
+    <!-- DataTales Example -->
+    @using (Html.BeginForm("SuaLoTrinhXe", "NhaXe", FormMethod.Post))
+    {
+        <div class="row">
+            <div class="col-md-12 col-sm-12">
+                <div class="card shadow mb-4">
+                    <div class="card-body">
+                        <div class="content table-responsive content">
+                            <div class="panel-body">
+                                <div class="form-group">
+                                    @Html.Hidden("idNhaXe", ViewBag.IdNhaXe, new { @class = "form-control", @required = "true" })
+                                    @Html.ValidationMessageFor(lo_trinh_xe => lo_trinh_xe.idNhaXe, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="idTinh">Tỉnh</label>
+                                    @Html.DropDownListFor(lo_trinh_xe => lo_trinh_xe.idTinh, ViewBag.DSTinh as SelectList, new { @class = "form-control js-select2", @required = "true", style = "width: 100%" })
+                                    @Html.ValidationMessageFor(lo_trinh_xe => lo_trinh_xe.idTinh, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="thuTu">Thứ tự</label>
+                                    @Html.TextBoxFor(lo_trinh_xe => lo_trinh_xe.thuTu, new { @type = "number", @class = "form-control", @required = "true" })
+                                    @Html.ValidationMessageFor(lo_trinh_xe => lo_trinh_xe.thuTu, "", new { @class = "text-danger" })
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="giaVe">Giá vé</label>
+                                    @Html.TextBoxFor(lo_trinh_xe => lo_trinh_xe.giaVe, new { @type = "number", @class = "form-control", @required = "true" })
+                                    @Html.ValidationMessageFor(lo_trinh_xe => lo_trinh_xe.giaVe, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <input type="submit" class="btn btn-success btnSave" value="Lưu thông tin">
+            <input type="reset" class="btn btn-secondary btnReset" value="Nhập lại">
+        </div>
+    }
+</div>
+
+@section js
+{
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

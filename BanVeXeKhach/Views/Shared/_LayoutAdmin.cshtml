@@ -1,0 +1,244 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="@ViewData["Title"] - Đặt vé xe<">
+    <link rel="icon" href="@Url.Content("~/images/logo.png")" type="image/ico" />
+
+    <title>@ViewData["Title"] - Đặt vé xe</title>
+
+    <link href="@Url.Content("~/lib/sb-admin-2/vendor/fontawesome-free/css/all.min.css")" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="@Url.Content("~/lib/sb-admin-2/css/sb-admin-2.css")" rel="stylesheet">
+    <link href="@Url.Content("~/lib/sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.css")" rel="stylesheet">
+
+    <!-- Select2-->
+    <link href="@Url.Content("~/lib/select2/css/select2.css")" rel="stylesheet">
+    <script href="@Url.Content("~/lib/select2/select2.js")"></script>
+
+    <!-- Toastr-->
+    <link href="@Url.Content("~/css/toastr.css")" rel="stylesheet">
+</head>
+<body id="page-top">
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+            <!-- Sidebar - Brand -->
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="@Url.RouteUrl("home.index")">
+                <img width="35" height="auto" src="@Url.Content("~/images/logo.png")" class="bg-white rounded-circle" />
+                <div class="sidebar-brand-text mx-3">Quản lý đặt vé xe</div>
+            </a>
+
+            <!-- Divider -->
+            <hr class="sidebar-divider my-0">
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" href="@Url.RouteUrl("home.index")">
+                    <i class="fas fa-home"></i>
+                    <span>Trang chủ</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Quản lý
+            </div>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.RouteUrl("tinh.index")">
+                    <i class="fas fa-fw fa-flag-usa"></i>
+                    <span>Quản lý tỉnh</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.RouteUrl("nha_xe.index")">
+                    <i class="fas fa-fw fa-building"></i>
+                    <span>Quản lý nhà xe</span>
+                </a>
+            </li>
+
+            <li class="nav-item">
+                <a class="nav-link" href="@Url.RouteUrl("lo_trinh_xe.index")">
+                    <i class="fas fa-fw fa-list"></i>
+                    <span>Danh sách tỉnh xe đi qua</span>
+                </a>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <!-- Heading -->
+            <div class="sidebar-heading">
+                Báo cáo
+            </div>
+            <!-- Nav Item - Pages Collapse Menu -->
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-toggle="collapse" data-target="#collapseBaoCao" aria-expanded="false" aria-controls="collapseBaoCao">
+                    <i class="fas fa-fw fa-chart-area"></i>
+                    <span>Báo cáo</span>
+                </a>
+                <div id="collapseBaoCao" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                    <div class="py-2 collapse-inner rounded">
+                        <a class="collapse-item" href=""><i class="fas fa-fw fa-users"></i> Đặt vé theo nhóm</a>
+                        <a class="collapse-item" href=""><i class="fas fa-fw fa-bus"></i> Đặt vé theo xe</a>
+                    </div>
+                </div>
+            </li>
+
+            <hr class="sidebar-divider">
+
+            <!-- Sidebar Toggler (Sidebar) -->
+            <div class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </div>
+        </ul>
+        <!-- End of Sidebar -->
+        <!-- Content Wrapper -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <!-- Main Content -->
+            <div id="content">
+                <!-- Topbar -->
+                <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+                    <!-- Sidebar Toggle (Topbar) -->
+                    <button id="sidebarToggleTop" class="btn btn-link d-md-none rounded-circle mr-3">
+                        <i class="fa fa-bars"></i>
+                    </button>
+
+                    <!-- Topbar Navbar -->
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item dropdown no-arrow">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span class="mr-2 d-none d-lg-inline text-gray-600 small">Douglas McGee</span>
+                                <img class="img-profile rounded-circle" src="@Url.Content("~/lib/sb-admin-2/img/undraw_profile.svg")">
+                            </a>
+                            <!-- Dropdown - User Information -->
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
+                                <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
+                                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                                    Đăng xuất
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
+                </nav>
+
+                @RenderBody()
+
+            </div>
+
+            <!-- Footer -->
+            <footer class="sticky-footer bg-white">
+                <div class="container my-auto">
+                    <div class="copyright text-center my-auto">
+                        <span>Copyright &copy; Your Website 2021</span>
+                    </div>
+                </div>
+            </footer>
+            <!-- End of Footer -->
+
+        </div>
+        <!-- End of Content Wrapper -->
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Bạn có chắc là muốn đăng xuất?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body"></div>
+                    <div class="modal-footer">
+                        <a class="btn btn-primary" href="/Login/Index">Đăng xuất</a>
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        @RenderSection("bulk_delete_modal", required: false)
+
+        <!-- Scroll to Top Button-->
+        <a class="scroll-to-top rounded" href="#page-top">
+            <i class="fas fa-angle-up"></i>
+        </a>
+    </div>
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/jquery/jquery.min.js")"></script>
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/bootstrap/js/bootstrap.bundle.min.js")"></script>
+
+    <!-- Select2-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.8/js/select2.min.js" defer></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/jquery-easing/jquery.easing.min.js")"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="@Url.Content("~/lib/sb-admin-2/js/sb-admin-2.min.js")"></script>
+
+    <!-- Page level plugins -->
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/chart.js/Chart.min.js")"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="@Url.Content("~/lib/sb-admin-2/js/demo/chart-area-demo.js")"></script>
+    <script src="@Url.Content("~/lib/sb-admin-2/js/demo/chart-pie-demo.js")"></script>
+
+
+    <!-- Page level plugins -->
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/datatables/jquery.dataTables.min.js")"></script>
+    <script src="@Url.Content("~/lib/sb-admin-2/vendor/datatables/dataTables.bootstrap4.min.js")"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="@Url.Content("~/lib/sb-admin-2/js/demo/datatables-demo.js")"></script>
+
+    <script src="@Url.Content("~/js/custom.js")"></script>
+
+    @RenderSection("Scripts", required: false)
+
+    <script src='@Url.Content("~/js/toastr.js")' type='text/javascript'></script>
+
+    <input type="hidden" id="success" value="@TempData["success"]" />
+    <input type="hidden" id="info" value="@TempData["info"]" />
+    <input type="hidden" id="warning" value="@TempData["warning"]" />
+    <input type="hidden" id="error" value="@TempData["error"]" />
+
+    <script>
+        $(function () {
+            if ($('#success').val()) {
+                displayMessage($('#success').val(), 'success');
+            }
+            if ($('#info').val()) {
+                displayMessage($('#info').val(), 'info');
+            }
+            if ($('#warning').val()) {
+                displayMessage($('#warning').val(), 'warning');
+            }
+            if ($('#error').val()) {
+                displayMessage($('#error').val(), 'error');
+            }
+        });
+        var displayMessage = function (message, type) {
+            toastr.options = {
+                "positionClass": "toast-top-right",
+                "showDuration": "300",
+                "hideDuration": "1000",
+                "timeOut": "3000",
+                "extendedTimeOut": "1000",
+                "showEasing": "swing",
+                "hideEasing": "linear",
+                "showMethod": "fadeIn",
+                "hideMethod": "fadeOut"
+            };
+            toastr[type](message);
+        };
+    </script>
+</body>
+</html>

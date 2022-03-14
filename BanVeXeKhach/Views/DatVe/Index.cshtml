@@ -1,0 +1,50 @@
+﻿@model BanVeXeKhach.Models.Khach
+
+@{
+    ViewData["Title"] = "Đặt vé theo nhóm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+
+    <div class="card o-hidden border-0 shadow-lg my-5">
+        <div class="card-body p-0">
+            <!-- Nested Row within Card Body -->
+            <div class="row">
+                <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                <div class="col-lg-7">
+                    <div class="p-5">
+                        <div class="text-center">
+                            <h1 class="h4 text-gray-900 mb-4">Đặt vé theo nhóm!</h1>
+                        </div>
+                        @using (Html.BeginForm("Them", "LopHocPhan", FormMethod.Post, new { id = "themLopHocPhan" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group row">
+                                <div class="col-sm-12">
+                                    @Html.TextBoxFor(khach => khach.hoTen, new { @class = "form-control form-control-user", placeholder = "Họ và tên" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.TextBoxFor(khach => khach.soDienThoai, new { @class = "form-control form-control-user", placeholder = "Số điện thoại" })
+                            </div>
+
+                            <div class="form-group">
+                                <select class="form-control js-select2">
+                                    @foreach (var item in ViewBag.DSTinh)
+                                    {
+                                    <option value="@item.id">@item.tenTinh</option>
+                                    }
+                                </select>
+                            </div>
+
+                            <a href="login.html" class="btn btn-primary btn-user btn-block">Tạo link đặt vé nhóm</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
