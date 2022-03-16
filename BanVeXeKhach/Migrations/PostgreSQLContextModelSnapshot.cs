@@ -21,70 +21,42 @@ namespace BanVeXeKhach.Migrations
 
             modelBuilder.Entity("BanVeXeKhach.Models.DanhSachDatVe", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int?>("Khachid")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("NhaXeid")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Tinhid")
-                        .HasColumnType("integer");
-
                     b.Property<int>("idKhach")
                         .HasColumnType("integer");
 
                     b.Property<int>("idNhaXe")
                         .HasColumnType("integer");
 
-                    b.Property<int>("idTinh")
-                        .HasColumnType("integer");
+                    b.HasKey("idKhach", "idNhaXe");
 
-                    b.HasKey("id");
+                    b.HasIndex("idNhaXe");
 
-                    b.HasIndex("Khachid");
-
-                    b.HasIndex("NhaXeid");
-
-                    b.HasIndex("Tinhid");
+                    b.HasIndex("idKhach", "idNhaXe")
+                        .IsUnique();
 
                     b.ToTable("DanhSachDatVe");
                 });
 
             modelBuilder.Entity("BanVeXeKhach.Models.DanhSachTinhXeDiQua", b =>
                 {
-                    b.Property<int>("id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
-
-                    b.Property<int?>("NhaXeid")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("Tinhid")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("giaVe")
-                        .HasColumnType("integer");
-
                     b.Property<int>("idNhaXe")
                         .HasColumnType("integer");
 
                     b.Property<int>("idTinh")
                         .HasColumnType("integer");
 
+                    b.Property<int>("giaVe")
+                        .HasColumnType("integer");
+
                     b.Property<int>("thuTu")
                         .HasColumnType("integer");
 
-                    b.HasKey("id");
+                    b.HasKey("idNhaXe", "idTinh");
 
-                    b.HasIndex("NhaXeid");
+                    b.HasIndex("idTinh");
 
-                    b.HasIndex("Tinhid");
+                    b.HasIndex("idNhaXe", "idTinh")
+                        .IsUnique();
 
                     b.ToTable("DanhSachTinhXeDiQua");
                 });
@@ -97,12 +69,19 @@ namespace BanVeXeKhach.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("hoTen")
+                        .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("idTinh")
+                        .HasColumnType("integer");
+
                     b.Property<string>("soDienThoai")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("id");
+
+                    b.HasIndex("idTinh");
 
                     b.ToTable("Khach");
                 });
@@ -115,9 +94,11 @@ namespace BanVeXeKhach.Migrations
                         .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
 
                     b.Property<string>("bienSo")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("soDienThoai")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<int>("soGheNam")
@@ -130,14 +111,42 @@ namespace BanVeXeKhach.Migrations
                         .HasColumnType("integer");
 
                     b.Property<string>("tenNhaXe")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("thoiGianDi")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("id");
 
+                    b.HasIndex("bienSo")
+                        .IsUnique();
+
                     b.ToTable("NhaXe");
+                });
+
+            modelBuilder.Entity("BanVeXeKhach.Models.Nhom", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasAnnotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn);
+
+                    b.Property<int?>("TruongNhomid")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("idTruongNhom")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("linkNhom")
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("TruongNhomid");
+
+                    b.ToTable("Nhom");
                 });
 
             modelBuilder.Entity("BanVeXeKhach.Models.Tinh", b =>
@@ -160,40 +169,111 @@ namespace BanVeXeKhach.Migrations
                     b.ToTable("Tinh");
                 });
 
+            modelBuilder.Entity("BanVeXeKhach.Models.VeNhom", b =>
+                {
+                    b.Property<int>("idKhach")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("idNhom")
+                        .HasColumnType("integer");
+
+                    b.HasKey("idKhach", "idNhom");
+
+                    b.HasIndex("idNhom");
+
+                    b.HasIndex("idKhach", "idNhom")
+                        .IsUnique();
+
+                    b.ToTable("VeNhom");
+                });
+
             modelBuilder.Entity("BanVeXeKhach.Models.DanhSachDatVe", b =>
                 {
                     b.HasOne("BanVeXeKhach.Models.Khach", "Khach")
                         .WithMany()
-                        .HasForeignKey("Khachid");
+                        .HasForeignKey("idNhaXe")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("BanVeXeKhach.Models.NhaXe", "NhaXe")
                         .WithMany()
-                        .HasForeignKey("NhaXeid");
-
-                    b.HasOne("BanVeXeKhach.Models.Tinh", "Tinh")
-                        .WithMany()
-                        .HasForeignKey("Tinhid");
+                        .HasForeignKey("idNhaXe")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Khach");
+
+                    b.Navigation("NhaXe");
+                });
+
+            modelBuilder.Entity("BanVeXeKhach.Models.DanhSachTinhXeDiQua", b =>
+                {
+                    b.HasOne("BanVeXeKhach.Models.NhaXe", "NhaXe")
+                        .WithMany("DanhSachTinhXeDiQua")
+                        .HasForeignKey("idNhaXe")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BanVeXeKhach.Models.Tinh", "Tinh")
+                        .WithMany("DanhSachXeDiQuaTinh")
+                        .HasForeignKey("idTinh")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("NhaXe");
 
                     b.Navigation("Tinh");
                 });
 
-            modelBuilder.Entity("BanVeXeKhach.Models.DanhSachTinhXeDiQua", b =>
+            modelBuilder.Entity("BanVeXeKhach.Models.Khach", b =>
                 {
-                    b.HasOne("BanVeXeKhach.Models.NhaXe", "NhaXe")
-                        .WithMany()
-                        .HasForeignKey("NhaXeid");
-
                     b.HasOne("BanVeXeKhach.Models.Tinh", "Tinh")
-                        .WithMany()
-                        .HasForeignKey("Tinhid");
-
-                    b.Navigation("NhaXe");
+                        .WithMany("DanhSachKhach")
+                        .HasForeignKey("idTinh")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Tinh");
+                });
+
+            modelBuilder.Entity("BanVeXeKhach.Models.Nhom", b =>
+                {
+                    b.HasOne("BanVeXeKhach.Models.Khach", "TruongNhom")
+                        .WithMany()
+                        .HasForeignKey("TruongNhomid");
+
+                    b.Navigation("TruongNhom");
+                });
+
+            modelBuilder.Entity("BanVeXeKhach.Models.VeNhom", b =>
+                {
+                    b.HasOne("BanVeXeKhach.Models.Khach", "Khach")
+                        .WithMany()
+                        .HasForeignKey("idKhach")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BanVeXeKhach.Models.Nhom", "Nhom")
+                        .WithMany()
+                        .HasForeignKey("idNhom")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Khach");
+
+                    b.Navigation("Nhom");
+                });
+
+            modelBuilder.Entity("BanVeXeKhach.Models.NhaXe", b =>
+                {
+                    b.Navigation("DanhSachTinhXeDiQua");
+                });
+
+            modelBuilder.Entity("BanVeXeKhach.Models.Tinh", b =>
+                {
+                    b.Navigation("DanhSachKhach");
+
+                    b.Navigation("DanhSachXeDiQuaTinh");
                 });
 #pragma warning restore 612, 618
         }

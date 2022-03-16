@@ -8,7 +8,6 @@
 <div class="container">
     <div class="card o-hidden border-0 shadow-lg my-5">
         <div class="card-body p-0">
-            <!-- Nested Row within Card Body -->
             <div class="row">
                 <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
                 <div class="col-lg-7">
@@ -16,7 +15,15 @@
                         <div class="text-center">
                             <h1 class="h4 text-gray-900 mb-4">Đặt vé theo nhóm!</h1>
                         </div>
-                        <form asp-action="DatVe">
+
+                        <div class="form-group">
+                            <p>Người tạo: @ViewBag.Khach.hoTen</p>
+                            <p>Số điện thoại: @ViewBag.Khach.soDienThoai</p>
+                            <p>Tỉnh đến: @ViewBag.Khach.Tinh.tenTinh</p>
+                            <p>Số người đặt vé nhóm: @ViewBag.soNguoiDatVe/8</p>
+                        </div>
+
+                        <form asp-action="DatVeNhom">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                             <div class="form-group">
@@ -37,11 +44,7 @@
                                 <span asp-validation-for="idTinh" class="text-danger"></span>
                             </div>
 
-                            <div class="form-group">
-                                <input type="hidden" class="form-control" id="linkNhom" value="" readonly onclick="copy(this)"/>
-                            </div>
-
-                            <a href="#" class="btn btn-primary btn-user btn-block btnTaoLinkNhom">Tạo link đặt vé nhóm</a>
+                            <button type="submit" class="btn btn-success">Xác nhận</button>
                         </form>
                     </div>
                 </div>
@@ -51,36 +54,6 @@
 </div>
 
 @section Scripts{
-    <script>
-        $(document).ready(function () {
-            $(".btnTaoLinkNhom").on("click", function () {
-                $.post(
-                    "@Url.RouteUrl("dat_ve.post")",
-                    {
-                        __RequestVerificationToken: $("input[name='__RequestVerificationToken']").val(),
-                        hoTen: document.getElementById("hoTen").value,
-                        soDienThoai: document.getElementById("soDienThoai").value,
-                        idTinh: document.getElementById("idTinh").value,
-                    },
-                    function (data, status) {
-                        if (status == "success") {
-                            document.getElementById("linkNhom").value = data.data;
-                            document.getElementById("linkNhom").setAttribute('type', 'text');
-                        }
-                        else {
-                            alert("Error");
-                        }
-                    }
-                );
-            });
-        });
-
-        function copy(e) {
-            var value = $(e).val();
-            $(e).select().focus();
-            navigator.clipboard.writeText(value);
-            toastr.success("Copied #" + value, "", { timeOut: 3000 });
-        };
-    </script>
+    
 }
 

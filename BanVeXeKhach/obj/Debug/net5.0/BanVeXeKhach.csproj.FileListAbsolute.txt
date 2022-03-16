@@ -33,7 +33,6 @@ D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\BanVeXeKhach.TagHelpers.input.c
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\BanVeXeKhach.TagHelpers.output.cache
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\BanVeXeKhach.RazorCoreGenerate.cache
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Home\Index.cshtml.g.cs
-D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Home\Privacy.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Shared\Error.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Shared\_ValidationScriptsPartial.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\_ViewImports.cshtml.g.cs
@@ -125,12 +124,12 @@ D:\C#\BanVeXeKhach\BanVeXeKhach\bin\Debug\net5.0\runtimes\win-arm64\lib\net5.0\d
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\DatVe\Index.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Shared\_Layout.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Tinh\Index.cshtml.g.cs
-D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Tinh\Sua.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Tinh\Them.cshtml.g.cs
+D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\Tinh\Sua.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\NhaXe\Index.cshtml.g.cs
-D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\NhaXe\Sua.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\NhaXe\Them.cshtml.g.cs
-D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\LoTrinhXe\Sua.cshtml.g.cs
+D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\NhaXe\Sua.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\NhaXe\IndexLoTrinhXe.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\NhaXe\ThemLoTrinhXe.cshtml.g.cs
 D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\NhaXe\SuaLoTrinhXe.cshtml.g.cs
+D:\C#\BanVeXeKhach\BanVeXeKhach\obj\Debug\net5.0\Razor\Views\DatVe\DatVeNhom.cshtml.g.cs

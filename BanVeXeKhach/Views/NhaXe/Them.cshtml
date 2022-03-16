@@ -1,66 +1,64 @@
 ﻿@model BanVeXeKhach.Models.NhaXe
 
 @{
-    ViewBag.Title = "Thêm nhà xe";
+    ViewData["Title"] = "Thêm nhà xe";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="container-fluid">
-    <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Thông tin nhà xe</h1>
-        <a href="@Url.RouteUrl("nha_xe.index")" class="btn btn-dark"><i class="fa fa-arrow-left"></i> Quay lại</a>
+        <a asp-action="Index" class="btn btn-dark"><i class="fa fa-arrow-left"></i> Quay lại</a>
     </div>
 
-    <!-- DataTales Example -->
-    @using (Html.BeginForm("Them", "NhaXe", FormMethod.Post))
-    {
+    <form asp-action="Them">
         <div class="row">
             <div class="col-md-12 col-sm-12">
                 <div class="card shadow mb-4">
                     <div class="card-body">
                         <div class="content table-responsive content">
                             <div class="panel-body">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
                                 <div class="form-group">
-                                    <label for="bienSo">Biển số</label>
-                                    @Html.TextBoxFor(nha_xe => nha_xe.bienSo, new { @class = "form-control", @required = "true" })
-                                    @Html.ValidationMessageFor(nha_xe => nha_xe.bienSo, "", new { @class = "text-danger" })
+                                    <label asp-for="bienSo" class="control-label"></label>
+                                    <input asp-for="bienSo" class="form-control" />
+                                    <span asp-validation-for="bienSo" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="tenNhaXe" class="control-label"></label>
+                                    <input asp-for="tenNhaXe" class="form-control" />
+                                    <span asp-validation-for="tenNhaXe" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="soDienThoai" class="control-label"></label>
+                                    <input asp-for="soDienThoai" class="form-control" />
+                                    <span asp-validation-for="soDienThoai" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="soGheNgoi" class="control-label"></label>
+                                    <input asp-for="soGheNgoi" type="number" value="0" class="form-control" />
+                                    <span asp-validation-for="soGheNgoi" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="soGheNam" class="control-label"></label>
+                                    <input asp-for="soGheNam" type="number" value="0" class="form-control" />
+                                    <span asp-validation-for="soGheNam" class="text-danger"></span>
+                                </div>
+                                <div class="form-group">
+                                    <label asp-for="taiTrongMoiKhach" class="control-label"></label>
+                                    <input asp-for="taiTrongMoiKhach" type="number" value="0" class="form-control" />
+                                    <span asp-validation-for="taiTrongMoiKhach" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="tenNhaXe">Tên nhà xe</label>
-                                    @Html.TextBoxFor(nha_xe => nha_xe.tenNhaXe, new { @class = "form-control", @required = "true" })
-                                    @Html.ValidationMessageFor(nha_xe => nha_xe.tenNhaXe, "", new { @class = "text-danger" })
+                                    <label asp-for="thoiGianDi" class="control-label"></label>
+                                    <input asp-for="thoiGianDi" type="time" class="form-control" />
+                                    <span asp-validation-for="thoiGianDi" class="text-danger"></span>
                                 </div>
 
                                 <div class="form-group">
-                                    <label for="soDienThoai">Số điện thoại</label>
-                                    @Html.TextBoxFor(nha_xe => nha_xe.soDienThoai, new { @class = "form-control", @required = "true" })
-                                    @Html.ValidationMessageFor(nha_xe => nha_xe.soDienThoai, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="soGheNgoi">Số ghế ngồi</label>
-                                    @Html.TextBoxFor(nha_xe => nha_xe.soGheNgoi, new { @type = "number", @class = "form-control", @required = "true" })
-                                    @Html.ValidationMessageFor(nha_xe => nha_xe.soGheNgoi, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="soGheNam">Số ghế nằm</label>
-                                    @Html.TextBoxFor(nha_xe => nha_xe.soGheNam, new { @type = "number", @class = "form-control", @required = "true" })
-                                    @Html.ValidationMessageFor(nha_xe => nha_xe.soGheNam, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="taiTrongMoiKhach">Tải trọng mỗi khách</label>
-                                    @Html.TextBoxFor(nha_xe => nha_xe.taiTrongMoiKhach, new { @type = "number", @class = "form-control", @required = "true" })
-                                    @Html.ValidationMessageFor(nha_xe => nha_xe.taiTrongMoiKhach, "", new { @class = "text-danger" })
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="thoiGianDi">Thời gian đi</label>
-                                    @Html.TextBoxFor(nha_xe => nha_xe.thoiGianDi, new { @type = "time", @class = "form-control", @required = "true" })
-                                    @Html.ValidationMessageFor(nha_xe => nha_xe.thoiGianDi, "", new { @class = "text-danger" })
+                                    <input type="submit" value="Lưu thông tin" class="btn btn-success" />
                                 </div>
                             </div>
                         </div>
@@ -68,15 +66,9 @@
                 </div>
             </div>
         </div>
-
-        <div class="mb-3">
-            <input type="submit" class="btn btn-success btnSave" value="Lưu thông tin">
-            <input type="reset" class="btn btn-secondary btnReset" value="Nhập lại">
-        </div>
-    }
+    </form>
 </div>
 
-@section js
-{
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

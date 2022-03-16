@@ -33,9 +33,11 @@ namespace BanVeXeKhach.Controllers
         }
 
         [Route("", Name = "nha_xe.index")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View(await db.NhaXe.ToListAsync());
+            var nha_xe = db.NhaXe.Include(s => s.DanhSachTinhXeDiQua).ToList();
+            
+            return View(nha_xe);
         }
 
 
@@ -67,9 +69,9 @@ namespace BanVeXeKhach.Controllers
 
         [Route("sua/{id:int}", Name = "nha_xe.sua.get")]
         [HttpGet]
-        public async Task<IActionResult> Sua(int id)
+        public IActionResult Sua(int id)
         {
-            var tinh = await db.NhaXe.FindAsync(id);
+            var tinh = db.NhaXe.Find(id);
             if (tinh != null)
             {
                 return View(tinh);
@@ -80,6 +82,7 @@ namespace BanVeXeKhach.Controllers
 
         [Route("sua/{id:int}", Name = "nha_xe.sua.post")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Sua(NhaXe _nha_xe, int id)
         {
             if (id != _nha_xe.id)
@@ -121,6 +124,7 @@ namespace BanVeXeKhach.Controllers
 
         [Route("xoa/{id:int}", Name = "nha_xe.xoa")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Xoa(int id)
         {
             var nha_xe = db.NhaXe.Find(id);
@@ -140,14 +144,14 @@ namespace BanVeXeKhach.Controllers
 
         [Route("{id:int}", Name = "nha_xe.lo_trinh")]
         [HttpGet]
-        public async Task<IActionResult> IndexLoTrinhXe(int id)
+        public IActionResult IndexLoTrinhXe(int id)
         {
-            var nha_xe = db.NhaXe.Find(id);
+            NhaXe nha_xe = db.NhaXe.Find(id);
             if (nha_xe != null)
             {
-                ViewData["IdNhaXe"] = id;
+                ViewBag.NhaXe = nha_xe;
 
-                return View(await db.DanhSachTinhXeDiQua.Where(s => s.idNhaXe == id).OrderBy(s => s.thuTu).Include(s => s.NhaXe).Include(s => s.Tinh).AsNoTracking().ToListAsync());
+                return View(db.DanhSachTinhXeDiQua.Where(s => s.idNhaXe == id).OrderBy(s => s.thuTu).Include(s => s.NhaXe).Include(s => s.Tinh).AsNoTracking().ToList());
             }
 
             return NotFound();
@@ -155,13 +159,13 @@ namespace BanVeXeKhach.Controllers
 
         [Route("{id:int}/them", Name = "nha_xe.lo_trinh.them.get")]
         [HttpGet]
-        public async Task<IActionResult> ThemLoTrinhXe(int id)
+        public IActionResult ThemLoTrinhXe(int id)
         {
-            var nha_xe = await db.NhaXe.FindAsync(id);
+            NhaXe nha_xe = db.NhaXe.Find(id);
             if (nha_xe != null)
             {
-                ViewData["IdNhaXe"] = id;
-                ViewData["DSTinh"] = getDSTinh();
+                ViewBag.NhaXe = nha_xe;
+                ViewBag.DSTinh = getDSTinh();
 
                 return View();
             }
@@ -171,6 +175,7 @@ namespace BanVeXeKhach.Controllers
 
         [Route("{id:int}/them", Name = "nha_xe.lo_trinh.them.post")]
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ThemLoTrinhXe(DanhSachTinhXeDiQua lo_trinh_xe, int id)
         {
             if (id != lo_trinh_xe.idNhaXe)
@@ -180,7 +185,9 @@ namespace BanVeXeKhach.Controllers
 
             if (ModelState.IsValid)
             {
-                try
+                DanhSachTinhXeDiQua lo_trinh_xe_1 = db.DanhSachTinhXeDiQua.Where(s => s.idNhaXe == lo_trinh_xe.idNhaXe).Where(s => s.idTinh == lo_trinh_xe.idTinh).FirstOrDefault();
+                DanhSachTinhXeDiQua lo_trinh_xe_2 = db.DanhSachTinhXeDiQua.Where(s => s.idNhaXe == lo_trinh_xe.idNhaXe).Where(s => s.thuTu == lo_trinh_xe.thuTu).FirstOrDefault();
+                if (lo_trinh_xe_1 == null && lo_trinh_xe_2 == null)
                 {
                     db.DanhSachTinhXeDiQua.Add(lo_trinh_xe);
                     await db.SaveChangesAsync();
@@ -188,30 +195,23 @@ namespace BanVeXeKhach.Controllers
 
                     return RedirectToAction("ThemLoTrinhXe");
                 }
-                catch(DbUpdateException)
-                {
-                    ModelState.AddModelError("", "Lỗi: Thêm thất bại");
-
-                    return View(lo_trinh_xe);
-                }
             }
-            else
-            {
-                TempData["error"] = "Thêm thất bại";
 
-                return View(lo_trinh_xe);
-            }
+            TempData["error"] = "Thêm thất bại";
+
+            return RedirectToAction("ThemLoTrinhXe");
         }
 
-        [Route("{id:int}/sua/{id_lo_trinh:int}", Name = "nha_xe.lo_trinh.sua.get")]
+        [Route("{id:int}/sua/{id_tinh:int}", Name = "nha_xe.lo_trinh.sua.get")]
         [HttpGet]
-        public async Task<IActionResult> SuaLoTrinhXe(int id, int id_lo_trinh)
+        public IActionResult SuaLoTrinhXe(int id, int id_tinh)
         {
-            DanhSachTinhXeDiQua lo_trinh_xe = await db.DanhSachTinhXeDiQua.Where(s => s.id == id_lo_trinh).Where(s => s.idNhaXe == id).FirstAsync();
+            NhaXe nha_xe = db.NhaXe.Find(id);
+            DanhSachTinhXeDiQua lo_trinh_xe = db.DanhSachTinhXeDiQua.Where(s => s.idNhaXe == id).Where(s => s.idTinh == id_tinh).FirstOrDefault();
             if (lo_trinh_xe != null)
             {
-                ViewData["IdNhaXe"] = id;
-                ViewData["DSTinh"] = new SelectList(db.Tinh, "id", "tenTinh");
+                ViewBag.NhaXe = nha_xe;
+                ViewBag.DSTinh = new SelectList(db.Tinh, "id", "tenTinh", id_tinh);
 
                 return View(lo_trinh_xe);
             }
@@ -219,49 +219,37 @@ namespace BanVeXeKhach.Controllers
             return NotFound();
         }
 
-        [Route("{id:int}/{id_lo_trinh:int}", Name = "nha_xe.lo_trinh_xe.sua.post")]
+        [Route("{id:int}/sua/{id_tinh:int}", Name = "nha_xe.lo_trinh_xe.sua.post")]
         [HttpPost]
-        public async Task<IActionResult> Sua(DanhSachTinhXeDiQua _lo_trinh_xe, int id, int id_lo_trinh)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SuaLoTrinhXe(DanhSachTinhXeDiQua lo_trinh_xe, int id, int id_tinh)
         {
-            if (id != _lo_trinh_xe.idNhaXe && id_lo_trinh != _lo_trinh_xe.id)
+            if (id != lo_trinh_xe.idNhaXe && id_tinh != lo_trinh_xe.idTinh)
             {
                 return NotFound();
             }
 
             if (ModelState.IsValid)
             {
-                var lo_trinh_xe = db.DanhSachTinhXeDiQua.Find(id_lo_trinh);
+                db.Entry(lo_trinh_xe).State = EntityState.Modified;
+                await db.SaveChangesAsync();
 
-                if (lo_trinh_xe != null)
-                {
-                    lo_trinh_xe.idNhaXe = _lo_trinh_xe.idNhaXe;
-                    lo_trinh_xe.idTinh = _lo_trinh_xe.idTinh;
-                    lo_trinh_xe.thuTu = _lo_trinh_xe.thuTu;
-                    lo_trinh_xe.giaVe = _lo_trinh_xe.giaVe;
+                TempData["success"] = "Sửa thành công";
 
-                    db.Entry(lo_trinh_xe).State = EntityState.Modified;
-                    await db.SaveChangesAsync();
-
-                    TempData["success"] = "Sửa thành công";
-
-                    return RedirectToAction("Sua");
-                }
-
-                return NotFound();
-            }
-            else
-            {
-                TempData["error"] = "Sửa thất bại";
+                return RedirectToAction("SuaLoTrinhXe");
             }
 
-            return View(_lo_trinh_xe);
+            TempData["error"] = "Sửa thất bại";
+
+            return View(lo_trinh_xe);
         }
 
-        [Route("{id:int}/xoa/{id_lo_trinh:int}", Name = "lo_trinh_xe.xoa")]
+        [Route("{id:int}/xoa/{id_tinh:int}", Name = "lo_trinh_xe.xoa")]
         [HttpPost]
-        public async Task<IActionResult> XoaLoTrinhXe(int id, int id_lo_trinh)
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> XoaLoTrinhXe(int id, int id_tinh)
         {
-            var lo_trinh_xe = await db.DanhSachTinhXeDiQua.Where(s => s.id == id_lo_trinh).Where(s => s.idNhaXe == id).FirstAsync();
+            DanhSachTinhXeDiQua lo_trinh_xe = await db.DanhSachTinhXeDiQua.Where(s => s.idNhaXe == id).Where(s => s.idTinh == id_tinh).FirstAsync();
             if (lo_trinh_xe != null)
             {
                 db.DanhSachTinhXeDiQua.Remove(lo_trinh_xe);

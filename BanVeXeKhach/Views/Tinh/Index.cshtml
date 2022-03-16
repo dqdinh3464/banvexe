@@ -1,20 +1,18 @@
 ﻿@model IEnumerable<BanVeXeKhach.Models.Tinh>
 
 @{
-    ViewBag.Title = "Tỉnh";
+    ViewData["Title"] = "Quản lý tỉnh";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="container-fluid">
-    <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Tỉnh</h1>
-        <a href="@Url.RouteUrl("tinh.them.get")" class="btn btn-success btn-add-new">
+        <a asp-action="Them" class="btn btn-success btn-add-new">
             <i class="fas fa-fw fa-plus-circle"></i><span> Thêm</span>
         </a>
     </div>
 
-    <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Danh sách tỉnh</h6>
@@ -24,26 +22,34 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Mã tỉnh</th>
-                            <th>Tên tỉnh</th>
-                            <th style="width: 120px">Thao tác</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.id)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.tenTinh)
+                            </th>
+                            <th style="max-width: 120px">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var tinh in Model)
+                        @foreach (var item in Model)
                         {
                             <tr>
-                                <td>@tinh.id</td>
-                                <td>@tinh.tenTinh</td>
-                                <td style="max-width: 120px">
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.id)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.tenTinh)
+                                </td>
+                                <td style="width: 120px">
                                     <div class="d-flex justify-content-between">
-                                        <a href="@Url.RouteUrl("tinh.sua.get", new { id = tinh.id})" class="btn btn-info btn-sm mr-2">
+                                        <a asp-action="Sua" asp-route-id="@item.id" class="btn btn-info btn-sm mr-2">
                                             <div class="d-flex align-items-baseline">
                                                 <i class="fas fa-pencil-alt"></i>
                                                 <span class="ml-1">Sửa</span>
                                             </div>
                                         </a>
-                                        <a href="#" class="btn btn-danger btn-sm btnDelete" data-toggle="modal" data-target="#bulk_delete_modal" data-text="@tinh.tenTinh" data-value="@tinh.id">
+                                        <a href="#" class="btn btn-danger btn-sm btnDelete" data-toggle="modal" data-target="#bulk_delete_modal" data-text="@item.tenTinh" data-value="@item.id">
                                             <div class="d-flex align-items-baseline">
                                                 <i class="fas fa-trash"></i>
                                                 <span class="ml-1">Xóa</span>
@@ -76,7 +82,7 @@
 
                 <div class="modal-footer">
                     <form action="" id="bulk_delete_form" method="POST">
-                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="submit" class="btn btn-success" value="Có">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
                     </form>
@@ -86,7 +92,7 @@
     </div>
 }
 
-@section js
+@section Scripts
 {
     <script>
         $(document).ready(function () {
@@ -97,4 +103,3 @@
         });
     </script>
 }
-

@@ -1,59 +1,94 @@
 ﻿@model IEnumerable<BanVeXeKhach.Models.NhaXe>
 
 @{
-    ViewBag.Title = "Nhà xe";
+    ViewData["Title"] = "Quản lý nhà xe";
     Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
 }
 
 <div class="container-fluid">
-    <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Nhà xe</h1>
-        <a href="@Url.RouteUrl("nha_xe.them.get")" class="btn btn-success btn-add-new">
+        <h1 class="h3 mb-0 text-gray-800">Tỉnh</h1>
+        <a asp-action="Them" class="btn btn-success btn-add-new">
             <i class="fas fa-fw fa-plus-circle"></i><span> Thêm</span>
         </a>
     </div>
 
-    <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Danh sách nhà xe</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Danh sách tỉnh</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th>Biển số</th>
-                            <th>Tên nhà xe</th>
-                            <th>Số điện thoại</th>
-                            <th>Ghế ngồi</th>
-                            <th>Ghế nằm</th>
-                            <th>Tải trọng mỗi khách</th>
-                            <th>Thời gian đi</th>
-                            <th style="width: 120px">Thao tác</th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.bienSo)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.tenNhaXe)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.soDienThoai)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.DanhSachTinhXeDiQua)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.soGheNgoi)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.soGheNam)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.taiTrongMoiKhach)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.thoiGianDi)
+                            </th>
+                            <th style="max-width: 120px">Thao tác</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach (var nha_xe in Model)
+                        @foreach (var item in Model)
                         {
                         <tr>
-                            <td><a href="@Url.RouteUrl("nha_xe.lo_trinh", new { id = nha_xe.id})">@nha_xe.bienSo</a></td>
-                            <td><a href="@Url.RouteUrl("nha_xe.lo_trinh", new { id = nha_xe.id})">@nha_xe.tenNhaXe</a></td>
-                            <td>@nha_xe.soDienThoai</td>
-                            <td>@nha_xe.soGheNgoi</td>
-                            <td>@nha_xe.soGheNam</td>
-                            <td>@nha_xe.taiTrongMoiKhach</td>
-                            <td>@nha_xe.thoiGianDi</td>
-                            <td style="max-width: 120px">
+                            <td>
+                                <a asp-action="IndexLoTrinhXe" asp-route-id="@item.id">@Html.DisplayFor(modelItem => item.bienSo)</a>
+                            </td>
+                            <td>
+                                <a asp-action="IndexLoTrinhXe" asp-route-id="@item.id">@Html.DisplayFor(modelItem => item.tenNhaXe)</a>
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.soDienThoai)
+                            </td>
+                            <td>
+                                @foreach (var data in item.DanhSachTinhXeDiQua)
+                                {
+                                    String.Join(" - ", data.idTinh);
+                                }
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.soGheNgoi)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.soGheNam)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.taiTrongMoiKhach)
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.thoiGianDi)
+                            </td>
+                            <td>
                                 <div class="d-flex justify-content-between">
-                                    <a href="@Url.RouteUrl("nha_xe.sua.get", new { id = nha_xe.id})" class="btn btn-info btn-sm mr-2">
+                                    <a asp-action="Sua" asp-route-id="@item.id" class="btn btn-info btn-sm mr-2">
                                         <div class="d-flex align-items-baseline">
                                             <i class="fas fa-pencil-alt"></i>
                                             <span class="ml-1">Sửa</span>
                                         </div>
                                     </a>
-                                    <a href="#" class="btn btn-danger btn-sm btnDelete" data-toggle="modal" data-target="#bulk_delete_modal" data-text="@nha_xe.tenNhaXe" data-value="@nha_xe.id">
+                                    <a href="#" class="btn btn-danger btn-sm btnDelete" data-toggle="modal" data-target="#bulk_delete_modal" data-text="@item.bienSo - @item.tenNhaXe" data-value="@item.id">
                                         <div class="d-flex align-items-baseline">
                                             <i class="fas fa-trash"></i>
                                             <span class="ml-1">Xóa</span>
@@ -86,7 +121,7 @@
 
                 <div class="modal-footer">
                     <form action="" id="bulk_delete_form" method="POST">
-                        @Html.AntiForgeryToken()
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <input type="submit" class="btn btn-success" value="Có">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Không</button>
                     </form>
@@ -96,7 +131,7 @@
     </div>
 }
 
-@section js
+@section Scripts
 {
     <script>
         $(document).ready(function () {
@@ -107,4 +142,3 @@
         });
     </script>
 }
-

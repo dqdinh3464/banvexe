@@ -40,8 +40,14 @@
                         HỆ THỐNG ĐẶT VÉ XE TRỰC TUYẾN
                     </div>
 
-                    <div class="d-none d-sm-inline-block mr-auto my-2">
-                        <a href="@Url.RouteUrl("dat_ve.index")"><i class="fa fa-users"></i> Tìm đặt vé nhóm</a>
+                    <div class="d-flex justify-content-start">
+                        <div class="mr-auto my-2">
+                            <a asp-action="Index" asp-controller="DatVe"><i class="fa fa-users"></i> Tìm đặt vé nhóm</a>
+                        </div>
+
+                        <div class="mr-auto my-2 ml-3">
+                            <a asp-action="Index" asp-controller="Tinh"><i class="fa fa-user-cog"></i> Admin</a>
+                        </div>
                     </div>
                 </nav>
 
@@ -89,7 +95,7 @@
 
     <script src="@Url.Content("~/js/custom.js")"></script>
 
-    @RenderSection("js", required: false)
+    @RenderSection("Scripts", required: false)
 
     <script src='@Url.Content("~/lib/jquery-validation/jquery.validate.js")' type='text/javascript'></script>
     <script src='@Url.Content("~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js")' type='text/javascript'></script>
