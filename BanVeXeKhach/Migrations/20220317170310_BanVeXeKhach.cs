@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BanVeXeKhach.Migrations
 {
-    public partial class BanVeXe : Migration
+    public partial class BanVeXeKhach : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -73,6 +73,8 @@ namespace BanVeXeKhach.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     hoTen = table.Column<string>(type: "text", nullable: false),
                     soDienThoai = table.Column<string>(type: "text", nullable: false),
+                    maNhom = table.Column<string>(type: "text", nullable: true),
+                    truongNhom = table.Column<bool>(type: "boolean", nullable: false),
                     idTinh = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -91,14 +93,15 @@ namespace BanVeXeKhach.Migrations
                 columns: table => new
                 {
                     idKhach = table.Column<int>(type: "integer", nullable: false),
-                    idNhaXe = table.Column<int>(type: "integer", nullable: false)
+                    idNhaXe = table.Column<int>(type: "integer", nullable: false),
+                    maNhom = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DanhSachDatVe", x => new { x.idKhach, x.idNhaXe });
                     table.ForeignKey(
-                        name: "FK_DanhSachDatVe_Khach_idNhaXe",
-                        column: x => x.idNhaXe,
+                        name: "FK_DanhSachDatVe_Khach_idKhach",
+                        column: x => x.idKhach,
                         principalTable: "Khach",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
@@ -106,51 +109,6 @@ namespace BanVeXeKhach.Migrations
                         name: "FK_DanhSachDatVe_NhaXe_idNhaXe",
                         column: x => x.idNhaXe,
                         principalTable: "NhaXe",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Nhom",
-                columns: table => new
-                {
-                    id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    linkNhom = table.Column<string>(type: "text", nullable: true),
-                    idTruongNhom = table.Column<int>(type: "integer", nullable: false),
-                    TruongNhomid = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Nhom", x => x.id);
-                    table.ForeignKey(
-                        name: "FK_Nhom_Khach_TruongNhomid",
-                        column: x => x.TruongNhomid,
-                        principalTable: "Khach",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "VeNhom",
-                columns: table => new
-                {
-                    idKhach = table.Column<int>(type: "integer", nullable: false),
-                    idNhom = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_VeNhom", x => new { x.idKhach, x.idNhom });
-                    table.ForeignKey(
-                        name: "FK_VeNhom_Khach_idKhach",
-                        column: x => x.idKhach,
-                        principalTable: "Khach",
-                        principalColumn: "id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_VeNhom_Nhom_idNhom",
-                        column: x => x.idNhom,
-                        principalTable: "Nhom",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -189,26 +147,10 @@ namespace BanVeXeKhach.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Nhom_TruongNhomid",
-                table: "Nhom",
-                column: "TruongNhomid");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Tinh_tenTinh",
                 table: "Tinh",
                 column: "tenTinh",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VeNhom_idKhach_idNhom",
-                table: "VeNhom",
-                columns: new[] { "idKhach", "idNhom" },
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_VeNhom_idNhom",
-                table: "VeNhom",
-                column: "idNhom");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -220,16 +162,10 @@ namespace BanVeXeKhach.Migrations
                 name: "DanhSachTinhXeDiQua");
 
             migrationBuilder.DropTable(
-                name: "VeNhom");
+                name: "Khach");
 
             migrationBuilder.DropTable(
                 name: "NhaXe");
-
-            migrationBuilder.DropTable(
-                name: "Nhom");
-
-            migrationBuilder.DropTable(
-                name: "Khach");
 
             migrationBuilder.DropTable(
                 name: "Tinh");

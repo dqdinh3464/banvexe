@@ -38,10 +38,10 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="hidden" class="form-control" id="linkNhom" value="" readonly onclick="copy(this)"/>
+                                <input type="hidden" class="form-control" id="linkNhom" value="" readonly onclick="copy(this)" />
                             </div>
 
-                            <a href="#" class="btn btn-primary btn-user btn-block btnTaoLinkNhom">Tạo link đặt vé nhóm</a>
+                            <button type="button" class="btn btn-primary btn-user btn-block btnTaoLinkNhom">Tạo link đặt vé nhóm</button>
                         </form>
                     </div>
                 </div>
@@ -51,6 +51,7 @@
 </div>
 
 @section Scripts{
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
     <script>
         $(document).ready(function () {
             $(".btnTaoLinkNhom").on("click", function () {
@@ -63,12 +64,12 @@
                         idTinh: document.getElementById("idTinh").value,
                     },
                     function (data, status) {
-                        if (status == "success") {
+                        if (data.status == "success") {
                             document.getElementById("linkNhom").value = data.data;
                             document.getElementById("linkNhom").setAttribute('type', 'text');
                         }
                         else {
-                            alert("Error");
+                            alert(data.data);
                         }
                     }
                 );

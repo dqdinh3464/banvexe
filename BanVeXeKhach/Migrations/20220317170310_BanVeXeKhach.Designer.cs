@@ -2,15 +2,17 @@
 using BanVeXeKhach.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace BanVeXeKhach.Migrations
 {
     [DbContext(typeof(PostgreSQLContext))]
-    partial class PostgreSQLContextModelSnapshot : ModelSnapshot
+    [Migration("20220317170310_BanVeXeKhach")]
+    partial class BanVeXeKhach
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -25,9 +27,6 @@ namespace BanVeXeKhach.Migrations
 
                     b.Property<int>("idNhaXe")
                         .HasColumnType("integer");
-
-                    b.Property<string>("maNhom")
-                        .HasColumnType("text");
 
                     b.HasKey("idKhach", "idNhaXe");
 

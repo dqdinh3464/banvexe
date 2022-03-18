@@ -44,5 +44,7 @@ namespace BanVeXeKhach.Models
 
         [Display(Name = "Lộ trình")]
         public virtual IList<DanhSachTinhXeDiQua> DanhSachTinhXeDiQua { get; set; }
+
+        public virtual IList<DanhSachDatVe> DanhSachDatVe { get; set; }
     }
 }

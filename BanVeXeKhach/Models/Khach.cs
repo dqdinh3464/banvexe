@@ -19,10 +19,16 @@ namespace BanVeXeKhach.Models
 
         [Display(Name = "Số điện thoại")]
         [Required(ErrorMessage = "Số điện thoại không được để trống")]
+        [RegularExpression(@"0[1-9][0-9]{8}", ErrorMessage = "Số điện thoại không đúng định dạng. Ví dụ: 0839014065")]
         public string soDienThoai { get; set; }
 
+        [Display(Name = "Mã nhóm")]
+        public string maNhom { get; set; }
+
+        [Display(Name = "Trưởng nhóm")]
+        public bool truongNhom { get; set; }
+
         [Display(Name = "Tỉnh")]
-        [ForeignKey("Tinh")]
         public int idTinh { get; set; }
 
         public Tinh Tinh { get; set; }

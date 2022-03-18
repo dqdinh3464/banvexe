@@ -20,7 +20,5 @@ namespace BanVeXeKhach.Models
         public string tenTinh { get; set; }
 
         public virtual IList<DanhSachTinhXeDiQua> DanhSachXeDiQuaTinh { get; set; }
-
-        public virtual IList<Khach> DanhSachKhach { get; set; }
     }
 }
